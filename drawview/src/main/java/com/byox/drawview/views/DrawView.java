@@ -519,7 +519,8 @@ public class DrawView extends FrameLayout implements View.OnTouchListener {
             init.recycle();
             mContentCanvas = new Canvas(mContentBitmap);
 
-            FrameLayout.LayoutParams layoutParams = new LayoutParams(getWidth() / 4, getHeight() / 4,
+            FrameLayout.LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
                     Gravity.TOP | Gravity.END);
             layoutParams.setMargins(12, 12, 12, 12);
             mZoomRegionCardView = new CardView(getContext());
@@ -529,8 +530,8 @@ public class DrawView extends FrameLayout implements View.OnTouchListener {
             mZoomRegionCardView.setUseCompatPadding(true);
             mZoomRegionCardView.setVisibility(View.INVISIBLE);
 
-            CardView.LayoutParams childLayoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+            CardView.LayoutParams childLayoutParams = new LayoutParams(getWidth() / 4,
+                    getHeight() / 4);
             mZoomRegionView = new ZoomRegionView(getContext());
             mZoomRegionView.setLayoutParams(childLayoutParams);
             mZoomRegionView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -538,8 +539,8 @@ public class DrawView extends FrameLayout implements View.OnTouchListener {
                 @Override
                 public void onZoomRegionMoved(Rect newRect) {
                     mFromZoomRegion = true;
-                    mZoomCenterX = newRect.centerX() * 4;
-                    mZoomCenterY = newRect.centerY() * 4;
+                    mZoomCenterX = newRect.left * mZoomFactor / (mZoomFactor - 1) * 4;
+                    mZoomCenterY = newRect.top * mZoomFactor / (mZoomFactor - 1) * 4;
 
                     invalidate();
                 }
